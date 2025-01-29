@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# Tuple Paisa - Your Smart Financial Companion 🚀
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android%20%7C%20Web-green.svg)
+![Version](https://img.shields.io/badge/version-1.0.0-orange)
 
-## Available Scripts
+**WalletZen** is a modern, secure, and intuitive wallet app designed to simplify your financial life. Manage multiple currencies, track expenses, and stay in control of your money with cutting-edge features and robust security.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## ✨ Features
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🔒 **Security First**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Biometric Authentication**: Unlock with Face ID, Touch ID, or device PIN.
+- **End-to-End Encryption**: All data encrypted in transit and at rest.
+- **Remote Wipe**: Securely erase wallet data if your device is lost/stolen.
+- **Multi-Factor Authentication (MFA)**: Add an extra layer of security via SMS, email, or authenticator apps.
 
-### `npm test`
+### 💸 **Multi-Currency Support**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Hold and transact in **20+ currencies** (USD, EUR, GBP, JPY, etc.) and **10+ cryptocurrencies** (BTC, ETH, etc.).
+- Real-time exchange rates powered by [OpenExchangeRates](https://openexchangerates.org/).
+- Auto-convert funds during transactions at competitive rates.
 
-### `npm run build`
+### 📊 **Expense Tracking & Insights**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- **Smart Dashboard**: Visualize spending trends with interactive charts.
+- **Budget Alerts**: Set monthly budgets and get notified when limits are approached.
+- **Spending Categories**: Automatically categorize transactions (e.g., Food, Travel, Bills).
+- **Receipt Scanner**: Snap a photo to log cash expenses instantly.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 🌐 **Cross-Platform Syncing**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Access your wallet seamlessly on **iOS**, **Android**, and **Web**.
+- Sync data in real-time across all devices.
 
-### `npm run eject`
+### 💳 **Payment Integrations**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **QR Code Payments**: Scan or generate QR codes for instant transfers.
+- **Recurring Payments**: Schedule bills, subscriptions, or salary deposits.
+- **Third-Party Integrations**: Connect to PayPal, Stripe, and major banks.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🛠️ **Customization**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Dark/Light Mode**: Choose your preferred theme.
+- **Custom Wallets**: Create separate wallets for personal, business, or travel.
+- **Widget Support**: Quick-access balance widgets for your home screen.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 🤖 **AI-Powered Assistant**
 
-## Learn More
+- **ZenBot**: Get spending insights, budget tips, and fraud alerts via chat.
+- **Predictive Budgeting**: AI-generated forecasts based on your habits.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 🌱 **Social & Sustainability**
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **Split Bills**: Divide expenses with friends and request payments.
+- **Charity Donations**: Round up transactions to donate spare change to NGOs.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## 🚀 Installation
 
-### Analyzing the Bundle Size
+### Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- iOS 14+ / Android 8+ / Modern web browser
+- Node.js v16+ (for development)
 
-### Making a Progressive Web App
+### Steps
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+1. **Download** the app from the [App Store](https://apple.com), [Google Play](https://play.google.com), or use the [Web App](https://walletzen.app).
+2. **Sign Up** with your email or social account.
+3. **Verify Identity** (KYC) for full access to features.
 
-### Advanced Configuration
+**For Developers**:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+git clone https://github.com/walletzen/walletzen.git
+cd walletzen
+npm install
+npm run start
+```
