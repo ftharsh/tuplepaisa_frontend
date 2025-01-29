@@ -1,10 +1,10 @@
 # Tuple Paisa - Your Smart Financial Companion 🚀
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20Android%20%7C%20Web-green.svg)
+![Platform](https://img.shields.io/badge/platform-20%7C%20Web-green.svg)
 ![Version](https://img.shields.io/badge/version-1.0.0-orange)
 
-**WalletZen** is a modern, secure, and intuitive wallet app designed to simplify your financial life. Manage multiple currencies, track expenses, and stay in control of your money with cutting-edge features and robust security.
+**Tuple Paisa** is a modern, secure, and intuitive wallet app designed to simplify your financial life. Manage multiple currencies, track expenses, and stay in control of your money with cutting-edge features and robust security.
 
 ---
 
@@ -68,15 +68,15 @@
 
 ### Steps
 
-1. **Download** the app from the [App Store](https://apple.com), [Google Play](https://play.google.com), or use the [Web App](https://walletzen.app).
+1. **Download** the app from the [App Store](https://apple.com), [Google Play](https://play.google.com), or use the [Web App](https://Tuple Paisa.app).
 2. **Sign Up** with your email or social account.
 3. **Verify Identity** (KYC) for full access to features.
 
 **For Developers**:
 
 ```bash
-git clone https://github.com/walletzen/walletzen.git
-cd walletzen
+git clone https://github.com/Tuple Paisa/Tuple Paisa.git
+cd Tuple Paisa
 npm install
 npm run start
 ```
