@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Scene3D from "./scene/Scene3D.jsx";
 import Button from "./common/Button.jsx";
+import { useNavigate } from "react-router-dom";
 import ParticleBackground from "./common/ParticleBackground.jsx";
 import GuideAvatar from "./guide/GuideAvatar.jsx";
 
 const WalletTutorial = () => {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [guideMessage, setGuideMessage] = useState("");
   const [isAnimating, setIsAnimating] = useState(false);
@@ -101,10 +103,9 @@ const WalletTutorial = () => {
   const renderNavigationButtons = () => (
     <div className="flex justify-between mt-12">
       <Button
-        variant="ghost"
         onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
         disabled={currentStep === 0}
-        className="text-blue-600 hover:bg-sky-600 bg-indigo-700"
+        className="bg-blue-500 hover:bg-blue-600 text-white"
       >
         Previous
       </Button>
@@ -123,6 +124,15 @@ const WalletTutorial = () => {
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-sky-600 via-blue-700 to-indigo-900 p-8">
       <ParticleBackground />
+
+      <div className="absolute top-4 left-4">
+        <Button
+          onClick={() => navigate("/dashboard")}
+          className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg shadow-lg"
+        >
+          Back to Home
+        </Button>
+      </div>
 
       <div className="w-full max-w-4xl mx-auto bg-white/80 border border-sky-300 backdrop-blur-xl rounded-lg shadow-md">
         <div className="p-8">
