@@ -17,6 +17,7 @@ __mocks__/
 # Ignore Babel configuration cache
 .babelrc
 jest.config.cjs
+__tests__/
 
 # Ignore package lock files
 package-lock.json
