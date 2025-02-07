@@ -17,6 +17,11 @@ import {
 } from "recharts";
 import { ChartService } from "../utils/chartService.js";
 import Sidebar from "./DashBoardSidebar.jsx";
+import DatePickerComponent from "./DatePicker.jsx";
+import dayjs from "dayjs";
+
+const defaultStartDate = () => dayjs().subtract(1, "month").startOf("day");
+const defaultEndDate = () => dayjs().endOf("day");
 
 const TransactionAnalytics = () => {
   const [pieData, setPieData] = useState([]);
@@ -24,21 +29,34 @@ const TransactionAnalytics = () => {
   const [amountData, setAmountData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [startDate, setStartDate] = useState(dayjs(defaultStartDate()));
+  const [endDate, setEndDate] = useState(dayjs(defaultEndDate()));
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const combinedData = await ChartService();
-        processChartData(combinedData);
-        setLoading(false);
-      } catch (err) {
-        setError("Failed to load data. Please try again.");
-        setLoading(false);
-      }
-    };
-    fetchData();
+    fetchData(startDate || defaultStartDate(), endDate || defaultEndDate());
   }, []);
+
+  const fetchData = async (start, end) => {
+    try {
+      setLoading(true);
+
+      const formattedStartDate = start
+        ? start.format("YYYY-MM-DD")
+        : defaultStartDate().format("YYYY-MM-DD");
+      const formattedEndDate = end
+        ? end.format("YYYY-MM-DD")
+        : defaultEndDate().format("YYYY-MM-DD");
+      const combinedData = await ChartService(
+        formattedStartDate,
+        formattedEndDate
+      );
+      processChartData(combinedData);
+      setLoading(false);
+    } catch (err) {
+      setError("Failed to load data. Please try again.");
+      setLoading(false);
+    }
+  };
 
   const processChartData = (combinedList) => {
     const counts = { RECEIVED: 0, TRANSFERRED: 0, RECHARGE: 0, CASHBACK: 0 };
@@ -213,7 +231,44 @@ const TransactionAnalytics = () => {
           <h2 className="text-3xl font-bold text-gray-800 mb-8 border-b border-gray-100 pb-4">
             Transaction Analytics
           </h2>
-
+          <div className="flex flex-row items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+            <div className="flex flex-col space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Select Start Date
+              </label>
+              <DatePickerComponent
+                label="Select Start Date"
+                defaultValue={dayjs(defaultStartDate())}
+                maxDate={defaultEndDate()}
+                selectedDate={startDate}
+                onDateChange={(newDate) => {
+                  setStartDate(newDate || defaultStartDate());
+                }}
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <div className="flex flex-col space-y-2">
+              <label className="text-sm font-medium text-gray-700">
+                Select End Date
+              </label>
+              <DatePickerComponent
+                label="Select End Date"
+                selectedDate={endDate}
+                maxDate={dayjs()}
+                onDateChange={(newDate) =>
+                  setEndDate(newDate || defaultEndDate())
+                }
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+            <button
+              onClick={() => fetchData(startDate, endDate)}
+              className="mt-6 px-6 py-2.5 bg-green-500 text-white font-semibold text-sm rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+              disabled={startDate > endDate || endDate > Date.now()}
+            >
+              Fetch Data
+            </button>
+          </div>
           {loading && (
             <div className="flex items-center justify-center h-64">
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
@@ -246,7 +301,54 @@ const TransactionAnalytics = () => {
                   </div>
                 ))}
               </div>
-
+              <div className="bg-white p-6 rounded-xl border border-gray-100">
+                <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                  Transaction Trend
+                </h3>
+                <ResponsiveContainer width="100%" height={400}>
+                  <LineChart data={lineData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
+                    <XAxis
+                      dataKey="date"
+                      stroke="#4B5563"
+                      tick={{ fill: "#4B5563", fontSize: 12 }}
+                    />
+                    <YAxis
+                      stroke="#4B5563"
+                      tick={{ fill: "#4B5563", fontSize: 12 }}
+                      tickLine={false}
+                      axisLine={false}
+                      tickFormatter={(value) => `₹${value}`}
+                    />
+                    <Tooltip content={<CustomTooltip />} />
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="received"
+                      name="Amount Received"
+                      stroke={CHART_COLORS.line.received}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="transferred"
+                      name="Amount Transferred"
+                      stroke={CHART_COLORS.line.transferred}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="recharge"
+                      name="Recharge"
+                      stroke={CHART_COLORS.line.recharge}
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="bg-white p-6 rounded-xl border border-gray-100">
                   <h3 className="text-xl font-semibold text-gray-800 mb-4">
@@ -324,55 +426,6 @@ const TransactionAnalytics = () => {
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
-              </div>
-
-              <div className="bg-white p-6 rounded-xl border border-gray-100">
-                <h3 className="text-xl font-semibold text-gray-800 mb-4">
-                  Transaction Trend
-                </h3>
-                <ResponsiveContainer width="100%" height={400}>
-                  <LineChart data={lineData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                    <XAxis
-                      dataKey="date"
-                      stroke="#4B5563"
-                      tick={{ fill: "#4B5563", fontSize: 12 }}
-                    />
-                    <YAxis
-                      stroke="#4B5563"
-                      tick={{ fill: "#4B5563", fontSize: 12 }}
-                      tickLine={false}
-                      axisLine={false}
-                      tickFormatter={(value) => `₹${value}`}
-                    />
-                    <Tooltip content={<CustomTooltip />} />
-                    <Legend />
-                    <Line
-                      type="monotone"
-                      dataKey="received"
-                      name="Amount Received"
-                      stroke={CHART_COLORS.line.received}
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="transferred"
-                      name="Amount Transferred"
-                      stroke={CHART_COLORS.line.transferred}
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="recharge"
-                      name="Recharge"
-                      stroke={CHART_COLORS.line.recharge}
-                      strokeWidth={2}
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
               </div>
             </div>
           )}

@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 const TransactionEffects = ({ show, onFinish }) => {
   useEffect(() => {
     if (show) {
       setTimeout(() => {
         onFinish();
-      }, 2000);
+      }, 800);
     }
   }, [show, onFinish]);
 

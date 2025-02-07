@@ -65,11 +65,11 @@ export const walletService = {
     }
   },
 
-  async transferMoney(recipientId, amount) {
+  async transferMoney(recipientUsername, amount) {
     try {
-      console.log("Transferring money...", { recipientId, amount });
+      console.log("Transferring money...", { recipientUsername, amount });
       const response = await fetch(
-        `${API_BASE_URL}/api/wallet/transfer?recipientId=${recipientId}&amount=${amount}`,
+        `${API_BASE_URL}/api/wallet/transfer?recipientUsername=${recipientUsername}&amount=${amount}`,
         {
           method: "POST",
           headers: getHeaders(),

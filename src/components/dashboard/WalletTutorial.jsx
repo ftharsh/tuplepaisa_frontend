@@ -3,12 +3,10 @@ import Scene3D from "./scene/Scene3D.jsx";
 import Button from "./common/Button.jsx";
 import { useNavigate } from "react-router-dom";
 import ParticleBackground from "./common/ParticleBackground.jsx";
-import GuideAvatar from "./guide/GuideAvatar.jsx";
 
 const WalletTutorial = () => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
-  const [guideMessage, setGuideMessage] = useState("");
   const [isAnimating, setIsAnimating] = useState(false);
 
   const tutorials = [
@@ -17,41 +15,32 @@ const WalletTutorial = () => {
       description:
         "Explore your digital wallet! Click and drag to transfer, click to see Money Magic.",
       type: "wallet",
-      guide: "Try dragging to rotate the wallet and click to see it animate!",
     },
     {
       title: "Real-time Transfers",
       description:
         "Watch your money move at the speed of light with animated transfers.",
       type: "send",
-      guide: "Click to see the coins animate across space!",
     },
     {
       title: "Advanced Security",
       description:
         "Your assets are protected by state-of-the-art encryption visualized Digitally.",
       type: "security",
-      guide: "Click the shield to test your security measures!",
     },
     {
       title: "Investment Tracking",
       description:
         "Watch your investments grow with interactive with Real time Charts .",
       type: "invest",
-      guide: "Interact with the chart to see market movements!",
     },
     {
       title: "Smart Settings",
       description:
         "Customize every aspect of your wallet with intuitive Secured controls.",
       type: "settings",
-      guide: "Click to explore your personalization options!",
     },
   ];
-
-  useEffect(() => {
-    setGuideMessage(tutorials[currentStep].guide);
-  }, [currentStep]);
 
   const handleInteraction = () => {
     setIsAnimating(true);
@@ -141,7 +130,6 @@ const WalletTutorial = () => {
           {renderNavigationButtons()}
         </div>
       </div>
-      <GuideAvatar message={guideMessage} isVisible={true} />
     </div>
   );
 };

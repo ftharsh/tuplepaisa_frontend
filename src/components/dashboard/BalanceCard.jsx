@@ -3,6 +3,8 @@ import { walletService } from "../utils/walletService.js";
 import { isAuthenticated } from "../utils/authService.js";
 import TransactionEffects from "./TransitionEffect.jsx";
 import ErrorToast from "./ErrorMessage.jsx";
+import Dropdown from "./DropDown.jsx";
+import { fetchSuggestions } from "../utils/autoSuggest.js";
 import WalletLogo from "../../media/images/preloader.png";
 
 const BalanceCard = ({ onCompleteFetch }) => {
@@ -12,9 +14,12 @@ const BalanceCard = ({ onCompleteFetch }) => {
   const [openTransfer, setOpenTransfer] = useState(false);
   const [openRecharge, setOpenRecharge] = useState(false);
   const [amount, setAmount] = useState("");
-  const [recipientId, setRecipientId] = useState("");
+  const [recipientUsername, setRecipientUsername] = useState("");
   const [transactionComplete, setTransactionComplete] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [query, setQuery] = useState("");
+  const [fetchingSuggestions, setFetchingSuggestions] = useState(false);
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -35,6 +40,23 @@ const BalanceCard = ({ onCompleteFetch }) => {
     }
   };
 
+  useEffect(() => {
+    let timeoutId;
+
+    if (query.length > 0) {
+      setFetchingSuggestions(true);
+      timeoutId = setTimeout(async () => {
+        const results = await fetchSuggestions(query);
+        setSuggestions(results);
+        setFetchingSuggestions(false);
+      }, 300);
+    } else {
+      setSuggestions([]);
+    }
+
+    return () => clearTimeout(timeoutId);
+  }, [query]);
+
   const showSuccessAnimation = () => {
     setTransactionComplete(true);
     setTimeout(() => {
@@ -43,7 +65,7 @@ const BalanceCard = ({ onCompleteFetch }) => {
   };
 
   const handleTransfer = async () => {
-    if (!amount || !recipientId) {
+    if (!amount || !recipientUsername) {
       setError("Please fill all fields");
       return;
     }
@@ -56,7 +78,7 @@ const BalanceCard = ({ onCompleteFetch }) => {
       setLoading(true);
       setOpenTransfer(false);
       setIsProcessing(true);
-      await walletService.transferMoney(recipientId, parseFloat(amount));
+      await walletService.transferMoney(recipientUsername, parseFloat(amount));
       await fetchBalance();
       setError("");
       resetForm();
@@ -95,7 +117,7 @@ const BalanceCard = ({ onCompleteFetch }) => {
 
   const resetForm = () => {
     setAmount("");
-    setRecipientId("");
+    setRecipientUsername("");
   };
 
   return (
@@ -180,15 +202,12 @@ const BalanceCard = ({ onCompleteFetch }) => {
             <div className="p-4 sm:p-6">
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1">
-                    Recipient ID
-                  </label>
-                  <input
-                    type="text"
-                    value={recipientId}
-                    onChange={(e) => setRecipientId(e.target.value)}
-                    className="w-full px-3 py-2 sm:px-4 sm:py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 text-sm sm:text-base"
-                    placeholder="Enter recipient ID"
+                  <Dropdown
+                    value={recipientUsername}
+                    onChange={(newValue) => setRecipientUsername(newValue)}
+                    options={suggestions}
+                    onInputChange={(value) => setQuery(value)}
+                    loading={fetchingSuggestions}
                   />
                 </div>
                 <div>
@@ -199,11 +218,24 @@ const BalanceCard = ({ onCompleteFetch }) => {
                     <span className="absolute left-2 sm:left-3 top-1.5 sm:top-2 text-gray-500 text-sm sm:text-base">
                       ₹
                     </span>
+                    <style>
+                      {`
+                        input::-webkit-outer-spin-button,
+                        input::-webkit-inner-spin-button {
+                         -webkit-appearance: none;
+                          margin: 0;
+                         }
+                                        
+                          input[type=number] {
+                          -moz-appearance: textfield; 
+                         }
+                                      `}
+                    </style>
                     <input
                       type="number"
                       value={amount}
                       onChange={(e) => setAmount(e.target.value)}
-                      className="w-full pl-6 sm:pl-8 pr-3 sm:pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 text-sm sm:text-base"
+                      className="w-full pl-6 sm:pl-8 pr-3 sm:pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 text-sm sm:text-base "
                       placeholder="Enter amount"
                     />
                   </div>
@@ -218,7 +250,7 @@ const BalanceCard = ({ onCompleteFetch }) => {
                 </button>
                 <button
                   onClick={handleTransfer}
-                  disabled={loading}
+                  disabled={loading || !recipientUsername || amount <= 0}
                   className="px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 text-xs sm:text-sm"
                 >
                   {loading ? (
@@ -250,6 +282,19 @@ const BalanceCard = ({ onCompleteFetch }) => {
                   <span className="absolute left-2 sm:left-3 top-1.5 sm:top-2 text-gray-500 text-sm sm:text-base">
                     ₹
                   </span>
+                  <style>
+                    {`
+                      input::-webkit-outer-spin-button,
+                      input::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
+                      }
+                      
+                      input[type=number] {
+                        -moz-appearance: textfield; /* Firefox */
+                      }
+                    `}
+                  </style>
                   <input
                     type="number"
                     value={amount}
@@ -268,7 +313,7 @@ const BalanceCard = ({ onCompleteFetch }) => {
                 </button>
                 <button
                   onClick={handleRecharge}
-                  disabled={loading}
+                  disabled={loading || amount <= 0}
                   className="px-3 py-2 sm:px-4 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 text-xs sm:text-sm"
                 >
                   {loading ? (
