@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AuthPage from "./components/Authpage";
 import Homepage from "./components/home/Homepage";
 import TransactionsView from "./components/dashboard/TransactionView";

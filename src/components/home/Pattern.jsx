@@ -108,35 +108,103 @@ const PatternBackground = () => {
     };
   }, []);
 
+  // return (
+  //   <div className="relative w-full h-[600px]">
+  //     <div
+  //       id="particles-js"
+  //       className="absolute inset-0 bg-gradient-radial from-blue-900 to-black to-70%"
+  //     />
+  //     <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+  //       <h1
+  //         className="futuristic-font text-9xl font-extrabold text-white mb-4 mt-3"
+  //         style={{ fontFamily: "Space Mono, sans-serif" }}
+  //       >
+  //         TUPLE PAISA
+  //       </h1>
+  //       <h2 className="text-2xl font-medium text-gray-300 p-8">
+  //         <TextMorph />
+  //       </h2>
+  //       <div className="flex gap-8 pointer-events-auto">
+  //         <button
+  //           className="group flex items-center border-none bg-transparent cursor-pointer transition-all duration-300 relative top-11"
+  //           onClick={handleSignInClick}
+  //         >
+  //           <span className="relative uppercase text-white text-lg tracking-[4px] pr-4 pb-5 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-white after:left-0 after:bottom-0 after:origin-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-out group-hover:after:origin-left group-hover:after:scale-x-100">
+  //             Sign Up
+  //           </span>
+  //           <svg
+  //             className="transform -translate-x-2 transition-transform duration-300 ease-in-out group-hover:translate-x-0 active:scale-90"
+  //             xmlns="http://www.w3.org/2000/svg"
+  //             width="30"
+  //             height="10"
+  //             viewBox="0 0 46 16"
+  //             fill="white"
+  //           >
+  //             <path
+  //               d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+  //               transform="translate(30)"
+  //             />
+  //           </svg>
+  //         </button>
+
+  //         <button
+  //           className="group flex items-center border-none bg-transparent cursor-pointer transition-all duration-300 relative top-11"
+  //           onClick={handleSignInClick}
+  //         >
+  //           <span className="relative uppercase text-white text-lg tracking-[4px] pr-4 pb-5 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-white after:left-0 after:bottom-0 after:origin-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-out group-hover:after:origin-left group-hover:after:scale-x-100">
+  //             Register
+  //           </span>
+  //           <svg
+  //             className="transform -translate-x-2 transition-transform duration-300 ease-in-out group-hover:translate-x-0 active:scale-90"
+  //             xmlns="http://www.w3.org/2000/svg"
+  //             width="30"
+  //             height="10"
+  //             viewBox="0 0 46 16"
+  //             fill="white"
+  //           >
+  //             <path
+  //               d="M8,0,6.545,1.455l5.506,5.506H-30V9.039H12.052L6.545,14.545,8,16l8-8Z"
+  //               transform="translate(30)"
+  //             />
+  //           </svg>
+  //         </button>
+  //       </div>
+  //     </div>
+  //     <div className="absolute top-12 left-0 bg-[#000022] w-20 text-[#13E8E9] text-sm text-left pl-1 leading-loose font-bold font-sans"></div>
+  //   </div>
+  // );
   return (
-    <div className="relative w-full h-[600px]">
+    <div className="relative w-full h-[80vh] sm:h-[600px]">
       <div
         id="particles-js"
         className="absolute inset-0 bg-gradient-radial from-blue-900 to-black to-70%"
       />
-      <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+
+      <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none px-4 sm:px-8">
         <h1
-          className="futuristic-font text-9xl font-extrabold text-white mb-4 mt-3"
+          className="futuristic-font  lg:text-9xl font-extrabold text-white mb-4 mt-3 sm:mt-6 md:text-7xl"
           style={{ fontFamily: "Space Mono, sans-serif" }}
         >
           TUPLE PAISA
         </h1>
-        <h2 className="text-2xl font-medium text-gray-300 p-8">
+
+        <h2 className="text-lg sm:text-2xl font-medium text-gray-300 px-4 py-4">
           <TextMorph />
         </h2>
-        <div className="flex gap-8 pointer-events-auto">
+
+        <div className="flex flex-wrap justify-center gap-4 sm:gap-8 pointer-events-auto mt-4">
           <button
-            className="group flex items-center border-none bg-transparent cursor-pointer transition-all duration-300 relative top-11"
+            className="group flex items-center border-none bg-transparent cursor-pointer transition-all duration-300"
             onClick={handleSignInClick}
           >
-            <span className="relative uppercase text-white text-lg tracking-[4px] pr-4 pb-5 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-white after:left-0 after:bottom-0 after:origin-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-out group-hover:after:origin-left group-hover:after:scale-x-100">
+            <span className="relative uppercase text-white text-base sm:text-lg tracking-[2px] sm:tracking-[4px] pr-2 sm:pr-4 pb-3 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-white after:left-0 after:bottom-0 after:origin-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-out group-hover:after:origin-left group-hover:after:scale-x-100">
               Sign Up
             </span>
             <svg
-              className="transform -translate-x-2 transition-transform duration-300 ease-in-out group-hover:translate-x-0 active:scale-90"
+              className="transform -translate-x-1 sm:-translate-x-2 transition-transform duration-300 ease-in-out group-hover:translate-x-0 active:scale-90"
               xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="10"
+              width="24"
+              height="8"
               viewBox="0 0 46 16"
               fill="white"
             >
@@ -148,17 +216,17 @@ const PatternBackground = () => {
           </button>
 
           <button
-            className="group flex items-center border-none bg-transparent cursor-pointer transition-all duration-300 relative top-11"
+            className="group flex items-center border-none bg-transparent cursor-pointer transition-all duration-300"
             onClick={handleSignInClick}
           >
-            <span className="relative uppercase text-white text-lg tracking-[4px] pr-4 pb-5 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-white after:left-0 after:bottom-0 after:origin-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-out group-hover:after:origin-left group-hover:after:scale-x-100">
+            <span className="relative uppercase text-white text-base sm:text-lg tracking-[2px] sm:tracking-[4px] pr-2 sm:pr-4 pb-3 after:content-[''] after:absolute after:w-full after:h-0.5 after:bg-white after:left-0 after:bottom-0 after:origin-right after:scale-x-0 after:transition-transform after:duration-300 after:ease-out group-hover:after:origin-left group-hover:after:scale-x-100">
               Register
             </span>
             <svg
-              className="transform -translate-x-2 transition-transform duration-300 ease-in-out group-hover:translate-x-0 active:scale-90"
+              className="transform -translate-x-1 sm:-translate-x-2 transition-transform duration-300 ease-in-out group-hover:translate-x-0 active:scale-90"
               xmlns="http://www.w3.org/2000/svg"
-              width="30"
-              height="10"
+              width="24"
+              height="8"
               viewBox="0 0 46 16"
               fill="white"
             >
@@ -170,7 +238,8 @@ const PatternBackground = () => {
           </button>
         </div>
       </div>
-      <div className="absolute top-12 left-0 bg-[#000022] w-20 text-[#13E8E9] text-sm text-left pl-1 leading-loose font-bold font-sans"></div>
+
+      <div className="absolute top-6 left-2 sm:top-12 sm:left-0 bg-[#000022] w-14 sm:w-20 text-[#13E8E9] text-xs sm:text-sm text-left pl-1 leading-loose font-bold font-sans"></div>
     </div>
   );
 };

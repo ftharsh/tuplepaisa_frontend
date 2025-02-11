@@ -57,7 +57,7 @@ const UserProfile = ({ username, compact = false }) => {
   );
 };
 
-const MenuItem = ({ icon, label, isActive, onClick, path }) => {
+const MenuItem = ({ icon, label, isActive, onClick }) => {
   const baseClasses =
     "flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 cursor-pointer";
   const activeClasses = "text-blue-700 bg-blue-100 hover:bg-blue-200";
@@ -85,7 +85,6 @@ const Sidebar = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
-      // Close mobile menu when switching to desktop
       if (window.innerWidth > 768) {
         setIsMobileMenuOpen(false);
       }
@@ -96,19 +95,16 @@ const Sidebar = () => {
   }, []);
 
   useEffect(() => {
-    // Setting active item based on current path
     const path = location.pathname;
     if (path === "/dashboard") setActiveItem("Dashboard");
     else if (path === "/analytics") setActiveItem("Analytics");
     else {
-      // Extract the path name without leading slash and capitalize
       const pathName = path.substring(1);
       if (pathName) {
         setActiveItem(pathName.charAt(0).toUpperCase() + pathName.slice(1));
       }
     }
 
-    // Close mobile menu when path changes
     setIsMobileMenuOpen(false);
   }, [location.pathname]);
 

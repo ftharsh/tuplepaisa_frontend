@@ -39,17 +39,14 @@ const Homepage = () => {
               <img src={Wave} alt="Wave Pattern" className="w-full h-[10rem]" />
             </div>
 
-            <div className="text-center mb-[5rem] mt-[5rem] pt-40">
-              <div className="text-7xl font-[1000] tracking-wide space-y-1 ">
-                <div>
-                  <span className="text-black">all that you </span>
-                  <span className="text-white">deserve.</span>
-                </div>
-                <div>
-                  <span className="text-black">and some </span>
-                  <span className="text-white">more.</span>
-                </div>
-              </div>
+            <div className="text-center mt-40 mb-20">
+              <h1 className="text-5xl font-extrabold tracking-wide space-y-1 sm:text-7xl">
+                <span className="text-black">all that you </span>
+                <span className="text-white">deserve.</span>
+                <br />
+                <span className="text-black">and some </span>
+                <span className="text-white">more.</span>
+              </h1>
             </div>
             <div className="flex items-center justify-center p-4 min-h-screen">
               <div className="bg-white rounded-3xl lg:rounded-4xl p-4 lg:p-8 flex flex-col lg:flex-row justify-between w-full lg:w-[90%] xl:w-[80%] 2xl:w-[60%] min-h-[40rem] items-center">
@@ -99,6 +96,72 @@ const Homepage = () => {
       <Footer />
     </div>
   );
+
+  // return (
+  //   <div>
+  //     <nav className="flex justify-between items-center p-4 bg-white shadow-md">
+  //       <div className="flex-shrink-0">
+  //         <img src={logo} alt="Appheading" className="h-10" />
+  //       </div>
+  //       <button
+  //         onClick={handleSignInClick}
+  //         className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center"
+  //       >
+  //         Sign In
+  //         <span className="ml-2 w-4 h-4 bg-white transform rotate-45"></span>
+  //       </button>
+  //     </nav>
+
+  //     <PatternBackground />
+
+  //     <div className="w-full bg-blue-700 p-8 relative">
+  //       <img
+  //         src={Wave}
+  //         alt="Wave Pattern"
+  //         className="absolute top-0 w-full h-[10rem]"
+  //       />
+  // <div className="text-center mt-40 mb-20">
+  //   <h1 className="text-5xl md:text-7xl font-extrabold tracking-wide space-y-1">
+  //     <span className="text-black">all that you </span>
+  //     <span className="text-white">deserve.</span>
+  //     <br />
+  //     <span className="text-black">and some </span>
+  //     <span className="text-white">more.</span>
+  //   </h1>
+  // </div>
+  //       <div className="flex items-center justify-center p-4 min-h-screen">
+  //         <div className="bg-white rounded-3xl p-6 md:p-8 flex flex-col lg:flex-row w-full max-w-5xl min-h-[40rem] items-center">
+  //           <div className="flex-1 text-center lg:text-left lg:pr-6">
+  //             <div className="flex justify-center lg:justify-start lg:ml-16 mb-3">
+  //               <img
+  //                 src={Logo_mini}
+  //                 alt="logo"
+  //                 className="w-12 h-12 lg:w-16 lg:h-16"
+  //               />
+  //             </div>
+  //             <h3 className="mb-6 lg:mb-10 mt-4 text-2xl lg:text-4xl font-bold leading-tight">
+  //               building the future of PAYMENTS
+  //             </h3>
+  //             <div className="text-pink-500 font-medium mb-2 text-xl lg:text-2xl">
+  //               100% DIGITAL
+  //             </div>
+  //             <div className="text-3xl lg:text-5xl font-extrabold mb-4">
+  //               Wallet in a flash
+  //             </div>
+  //             <p className="text-gray-600 max-w-sm mx-auto text-base lg:text-lg px-4 lg:px-0">
+  //               Create an account while making a playlist or posting a picture.
+  //               Completely digital and zero percent painful.
+  //             </p>
+  //           </div>
+  //           <div className="w-full lg:w-1/2 h-64 lg:h-[35rem] bg-blue-600 rounded-3xl flex items-center justify-center mt-6 lg:mt-0 lg:ml-6">
+  //             <Lottie animationData={Animation2} className="w-full h-full" />
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //     <Footer />
+  //   </div>
+  // );
 };
 
 export default Homepage;

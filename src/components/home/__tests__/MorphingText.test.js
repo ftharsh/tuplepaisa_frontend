@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, act } from "@testing-library/react";
 import TextMorph from "../MorphingText.jsx";
 
 jest.useFakeTimers();
@@ -41,5 +41,44 @@ describe("TextMorph Component", () => {
     const { unmount } = render(<TextMorph />);
     unmount();
     expect(global.cancelAnimationFrame).toHaveBeenCalled();
+  });
+
+  it("verifies frame update mechanism", async () => {
+    let frameCount = 0;
+    const mockRequestAnimationFrame = jest.fn((cb) => {
+      frameCount++;
+      cb();
+      return frameCount;
+    });
+
+    global.requestAnimationFrame = mockRequestAnimationFrame;
+
+    render(<TextMorph />);
+
+    await waitFor(() => {
+      expect(mockRequestAnimationFrame).toHaveBeenCalled();
+    });
+
+    global.requestAnimationFrame = jest.fn((cb) => setTimeout(cb, 16));
+  });
+
+  it("handles edge cases with minimal texts", async () => {
+    render(<TextMorph />);
+    const textElement = screen.getByTestId("morphing-text");
+
+    await waitFor(() => {
+      expect(textElement.innerHTML).not.toBe(undefined);
+    });
+  });
+
+  it("handles multiple text morphing cycles", async () => {
+    render(<TextMorph />);
+    const textElement = screen.getByTestId("morphing-text");
+
+    await act(async () => {
+      jest.advanceTimersByTime(10000);
+    });
+
+    expect(textElement.innerHTML).not.toBe("0");
   });
 });

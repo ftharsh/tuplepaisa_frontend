@@ -105,3 +105,51 @@
 .sign-in-btn:hover .arrow::before {
   right: 0;
 }
+
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 16px 32px;
+  }
+  .nav-links {
+    gap: 24px;
+  }
+  .logo-container {
+    width: 12rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    padding: 12px 20px;
+  }
+  .nav-links {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    margin-top: 10px;
+  }
+  .sign-in-btn {
+    margin-top: 10px;
+  }
+  .logo-container img {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 10px 16px;
+  }
+  .nav-links {
+    gap: 8px;
+    font-size: 14px;
+  }
+  .sign-in-btn {
+    padding: 0.8em 1.5em;
+    font-size: 14px;
+  }
+  .logo-container {
+    width: 10rem;
+  }
+}

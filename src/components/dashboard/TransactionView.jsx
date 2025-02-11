@@ -8,11 +8,6 @@ const TransactionsView = ({ toggleFetch }) => {
   const [error, setError] = useState("");
   const [page, setPage] = useState(0);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const [totals, setTotals] = useState({
-    cashback: 0,
-    outgoing: 0,
-    incoming: 0,
-  });
 
   useEffect(() => {
     fetchData();
@@ -23,10 +18,9 @@ const TransactionsView = ({ toggleFetch }) => {
       setLoading(true);
       const transactionsData = await transactionService.getTransactions(
         page,
-        10
+        5
       );
       setTransactions(transactionsData);
-      calculateTotals(transactionsData);
     } catch (err) {
       setError("Failed to fetch data");
     } finally {
@@ -34,26 +28,9 @@ const TransactionsView = ({ toggleFetch }) => {
     }
   };
 
-  const calculateTotals = (transactions) => {
-    let cashback = 0;
-    let outgoing = 0;
-    let incoming = 0;
-
-    transactions.forEach((transaction) => {
-      if (!transaction.type) {
-        cashback += transaction.amount;
-      } else if (transaction.type === "TRANSFER") {
-        outgoing += transaction.amount;
-      } else if (transaction.type === "RECHARGE") {
-        incoming += transaction.amount;
-      }
-    });
-
-    setTotals({ cashback, outgoing, incoming });
-  };
-
   const formatDate = (timestamp) => {
     return new Date(timestamp).toLocaleDateString("en-US", {
+      // !coverts timestamp to date
       year: "numeric",
       month: "short",
       day: "numeric",
@@ -65,7 +42,7 @@ const TransactionsView = ({ toggleFetch }) => {
 
   const generatePDF = async () => {
     try {
-      const printWindow = window.open("", "_blank");
+      const printWindow = window.open("", "_blank"); // !opens a new window for dsispaying the report
       printWindow.document.write(`
             <html>
                 <head>
@@ -196,85 +173,6 @@ const TransactionsView = ({ toggleFetch }) => {
               borderSpacing: "0 10px",
             }}
           >
-            {/* <thead>
-              <tr className="bg-gray-100 border-b">
-                <th className="px-6 py-3 text-left font-medium text-gray-600 uppercase">
-                  Date
-                </th>
-                <th className="px-6 py-3 text-left font-medium text-gray-600 uppercase">
-                  Type
-                </th>
-                <th className="px-6 py-3 text-left font-medium text-gray-600 uppercase">
-                  USER ID
-                </th>
-                <th className="px-6 py-3 text-left font-medium text-gray-600 uppercase">
-                  Action
-                </th>
-                <th className="px-6 py-3 text-left font-medium text-gray-600 uppercase">
-                  Transaction ID
-                </th>
-                <th className="px-6 py-3 text-right font-medium text-gray-600 uppercase">
-                  Amount
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {transactions.length > 0 ? (
-                transactions.map((transaction) => (
-                  <tr
-                    key={transaction.id}
-                    onClick={() => setSelectedTransaction(transaction)}
-                    className="border-4 hover:shadow-md hover:bg-gray-100 transform transition-transform hover:scale-100 cursor-pointer"
-                  >
-                    <td className="px-6 py-4">
-                      {formatDate(transaction.timestamp)}
-                    </td>
-                    <td className="px-6 py-4">
-                      {transaction.type || "CASHBACK"}
-                    </td>
-                    <td className="px-6 py-4 text-gray-500">
-                      {transaction.senderId || ""}
-                    </td>
-                    <td className="px-6 py-4 text-gray-500">
-                      {transaction.recipientId || ""}
-                    </td>
-                    <td className="px-6 py-4 text-gray-500">
-                      {transaction.id}
-                    </td>
-                    <td className="px-6 py-4 text-right font-medium">
-                      {transaction.type === "TRANSFER" ? (
-                        transaction.senderId ? (
-                          <span className="text-green-600">
-                            +₹{transaction.amount.toFixed(2)}
-                          </span>
-                        ) : (
-                          <span className="text-red-600">
-                            -₹{transaction.amount.toFixed(2)}
-                          </span>
-                        )
-                      ) : transaction.type === "RECHARGE" ? (
-                        <span className="text-green-600">
-                          +₹{transaction.amount.toFixed(2)}
-                        </span>
-                      ) : (
-                        <span className="text-blue-600">
-                          ₹{transaction.amount.toFixed(2)}
-                        </span>
-                      )}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan="6"
-                    className="px-6 py-4 text-center text-gray-500"
-                  >
-                    No transactions found.
-                  </td>
-                </tr>
-              )}
-            </tbody> */}
             <thead>
               <tr className="bg-gray-300 border-b">
                 <th className="px-6 py-3 text-left font-medium text-gray-700 uppercase">

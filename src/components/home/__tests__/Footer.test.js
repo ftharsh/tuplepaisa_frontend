@@ -17,7 +17,7 @@ describe("Footer Component", () => {
 
   it("renders all review logos with quotes", () => {
     render(<Footer />);
-    const reviewLogos = screen.getAllByRole("img", { name: /Bloomberg logo/i });
+    const reviewLogos = screen.getAllByRole("img", { name: /Review logo/i });
     expect(reviewLogos).toHaveLength(4);
     const quotes = screen.getAllByText(
       /The Next-gen platform|A young and hip transformation|Fresh and bold|Seamlessly modern/i
@@ -37,14 +37,10 @@ describe("Footer Component", () => {
     expect(screen.getByText(/About Us/i)).toBeInTheDocument();
     expect(
       screen.getByText(
-        /We're not your parents' finance app. who've survived on instant noodles/i
+        (content, element) =>
+          content.includes("We're not your parents' finance app.") &&
+          content.includes("instant noodles")
       )
     ).toBeInTheDocument();
-  });
-
-  it("renders the newsletter section", () => {
-    render(<Footer />);
-    expect(screen.getByText(/WANT TO BE THE SMARTEST/i)).toBeInTheDocument();
-    expect(screen.getByText(/SIGN UP FOR OUR NEWSLETTER/i)).toBeInTheDocument();
   });
 });

@@ -1,17 +1,15 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent, act, within } from "@testing-library/react";
 import { MemoryRouter, useLocation, useNavigate } from "react-router-dom";
-import Sidebar from "../DashBoardSidebar.jsx"; // Adjust import path as needed
+import Sidebar, { MenuItem } from "../DashBoardSidebar.jsx";
 import { clearToken } from "../../utils/authService.js";
 
-// Mock react-router-dom hooks
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
   useNavigate: jest.fn(),
   useLocation: jest.fn(),
 }));
 
-// Mock lucide-react icons to prevent rendering issues
 jest.mock("lucide-react", () => ({
   LayoutDashboard: () => <div data-testid="dashboard-icon" />,
   BarChart2: () => <div data-testid="analytics-icon" />,
@@ -21,12 +19,10 @@ jest.mock("lucide-react", () => ({
   X: () => <div data-testid="close-icon" />,
 }));
 
-// Mock auth service
 jest.mock("../../utils/authService.js", () => ({
   clearToken: jest.fn(),
 }));
 
-// Mock localStorage
 const localStorageMock = (() => {
   let store = {};
   return {
@@ -45,33 +41,29 @@ const localStorageMock = (() => {
 
 Object.defineProperty(window, "localStorage", { value: localStorageMock });
 
+const renderComponent = (pathname = "/dashboard") => {
+  useLocation.mockReturnValue({ pathname });
+  return render(
+    <MemoryRouter initialEntries={[pathname]}>
+      <Sidebar />
+    </MemoryRouter>
+  );
+};
+
 describe("Sidebar Component", () => {
   const mockNavigate = jest.fn();
   const mockLocation = { pathname: "/dashboard" };
 
   beforeEach(() => {
-    // Reset mocks
     jest.clearAllMocks();
 
-    // Setup mocks for react-router
     useNavigate.mockReturnValue(mockNavigate);
     useLocation.mockReturnValue(mockLocation);
 
-    // Setup localStorage
     localStorage.setItem("username", "TestUser");
 
-    // Setup window properties
     window.innerWidth = 1024;
   });
-
-  const renderComponent = (pathname = "/dashboard") => {
-    useLocation.mockReturnValue({ pathname });
-    return render(
-      <MemoryRouter initialEntries={[pathname]}>
-        <Sidebar />
-      </MemoryRouter>
-    );
-  };
 
   test("renders desktop sidebar with correct username", () => {
     renderComponent();
@@ -83,7 +75,6 @@ describe("Sidebar Component", () => {
   });
 
   test("renders mobile sidebar when window width is <= 768", () => {
-    // Simulate mobile width
     Object.defineProperty(window, "innerWidth", { value: 600 });
 
     act(() => {
@@ -183,5 +174,112 @@ describe("Sidebar Component", () => {
 
     const closedMobileMenu = screen.queryByText("Dashboard");
     expect(closedMobileMenu).toBeInTheDocument();
+  });
+
+  test("handles no username in localStorage", () => {
+    localStorage.removeItem("username");
+    renderComponent();
+
+    expect(screen.getByText("username")).toBeInTheDocument();
+  });
+
+  test("handles window resize events thoroughly", () => {
+    const { rerender } = renderComponent();
+
+    act(() => {
+      Object.defineProperty(window, "innerWidth", { value: 600 });
+      const resizeEvent = new Event("resize");
+      window.dispatchEvent(resizeEvent);
+    });
+
+    rerender(
+      <MemoryRouter>
+        <Sidebar />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByTestId("menu-icon")).toBeInTheDocument();
+
+    act(() => {
+      Object.defineProperty(window, "innerWidth", { value: 1200 });
+      const resizeEvent = new Event("resize");
+      window.dispatchEvent(resizeEvent);
+    });
+
+    rerender(
+      <MemoryRouter>
+        <Sidebar />
+      </MemoryRouter>
+    );
+
+    expect(screen.getByText("WELCOME")).toBeInTheDocument();
+  });
+
+  test("handles menu item with custom onClick", () => {
+    const customOnClick = jest.fn();
+    renderComponent();
+
+    const helpItem = screen.getByText("Help");
+    expect(helpItem).toBeInTheDocument();
+  });
+
+  test("renders with custom avatars", () => {
+    const { container } = renderComponent();
+    const avatarImg = container.querySelector("img[alt='Avatar']");
+    expect(avatarImg).toBeInTheDocument();
+  });
+
+  test("mobile sidebar menu state persistence", () => {
+    Object.defineProperty(window, "innerWidth", { value: 600 });
+
+    const { rerender } = render(
+      <MemoryRouter initialEntries={["/dashboard"]}>
+        <Sidebar />
+      </MemoryRouter>
+    );
+
+    const menuIcon = screen.getByTestId("menu-icon");
+    fireEvent.click(menuIcon);
+
+    rerender(
+      <MemoryRouter initialEntries={["/analytics"]}>
+        <Sidebar />
+      </MemoryRouter>
+    );
+
+    const mobileMenu = screen.getByText("Analytics");
+    expect(mobileMenu).toBeInTheDocument();
+  });
+});
+
+describe("Desktop View", () => {
+  test("handles resize to desktop view", () => {
+    const { rerender } = renderComponent();
+    act(() => {
+      window.innerWidth = 1024;
+      window.dispatchEvent(new Event("resize"));
+    });
+    rerender(
+      <MemoryRouter>
+        <Sidebar />
+      </MemoryRouter>
+    );
+    expect(screen.getByText("WELCOME")).toBeInTheDocument();
+  });
+});
+
+describe("Desktop View screen", () => {
+  test("handles resize to desktop view", () => {
+    const { rerender } = renderComponent();
+    act(() => {
+      window.innerWidth = 1024;
+      window.dispatchEvent(new Event("resize"));
+    });
+    rerender(
+      <MemoryRouter>
+        <Sidebar />
+      </MemoryRouter>
+    );
+    expect(screen.getByText("WELCOME")).toBeInTheDocument();
   });
 });

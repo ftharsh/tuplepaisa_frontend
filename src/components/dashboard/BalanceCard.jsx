@@ -9,14 +9,14 @@ import WalletLogo from "../../media/images/preloader.png";
 
 const BalanceCard = ({ onCompleteFetch }) => {
   const [balance, setBalance] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // if app is performing any  operation or not
   const [error, setError] = useState("");
   const [openTransfer, setOpenTransfer] = useState(false);
   const [openRecharge, setOpenRecharge] = useState(false);
   const [amount, setAmount] = useState("");
   const [recipientUsername, setRecipientUsername] = useState("");
   const [transactionComplete, setTransactionComplete] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false); // if any transaction is going or not
   const [suggestions, setSuggestions] = useState([]);
   const [query, setQuery] = useState("");
   const [fetchingSuggestions, setFetchingSuggestions] = useState(false);
@@ -44,17 +44,18 @@ const BalanceCard = ({ onCompleteFetch }) => {
     let timeoutId;
 
     if (query.length > 0) {
-      setFetchingSuggestions(true);
+      //means user has started typing something
+      setFetchingSuggestions(true); //show loading spinner , wont b displayed of api load is very light
       timeoutId = setTimeout(async () => {
         const results = await fetchSuggestions(query);
         setSuggestions(results);
-        setFetchingSuggestions(false);
+        setFetchingSuggestions(false); //loading has been completed
       }, 300);
     } else {
       setSuggestions([]);
     }
 
-    return () => clearTimeout(timeoutId);
+    return () => clearTimeout(timeoutId); // returning a clearTimeout , u cancel the operation going on [timeoutId]
   }, [query]);
 
   const showSuccessAnimation = () => {
@@ -132,7 +133,6 @@ const BalanceCard = ({ onCompleteFetch }) => {
           <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#f79e1b] opacity-90 -ml-3 sm:-ml-4"></div>
         </div>
       </div>
-
       <div className="text-center flex-grow flex flex-col justify-center">
         <p className="text-xs sm:text-sm text-white/80 mb-1 sm:mb-2 font-extrabold">
           Available Balance
@@ -147,7 +147,6 @@ const BalanceCard = ({ onCompleteFetch }) => {
           )}
         </div>
       </div>
-
       <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-4 mt-4">
         <button
           onClick={() => setOpenTransfer(true)}
@@ -190,7 +189,6 @@ const BalanceCard = ({ onCompleteFetch }) => {
           Recharge
         </button>
       </div>
-
       {openTransfer && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden mx-4">
@@ -229,7 +227,7 @@ const BalanceCard = ({ onCompleteFetch }) => {
                           input[type=number] {
                           -moz-appearance: textfield; 
                          }
-                                      `}
+                     `}
                     </style>
                     <input
                       type="number"
@@ -264,7 +262,6 @@ const BalanceCard = ({ onCompleteFetch }) => {
           </div>
         </div>
       )}
-
       {openRecharge && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl w-full max-w-md overflow-hidden mx-4">
@@ -327,9 +324,7 @@ const BalanceCard = ({ onCompleteFetch }) => {
           </div>
         </div>
       )}
-
       {error && <ErrorToast error={error} />}
-
       {transactionComplete && !error && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-gradient-to-br from-blue-900 to-blue-700 rounded-2xl p-6 sm:p-8 text-center text-white max-w-md w-full mx-4">
@@ -340,7 +335,7 @@ const BalanceCard = ({ onCompleteFetch }) => {
             <p className="text-xs sm:text-base mb-4 sm:mb-6 opacity-90">
               Enjoy your rewards and cashback with a smile!
             </p>
-            {/* istanbul ignore file   */}
+
             <button
               onClick={() => setTransactionComplete(false)}
               className="px-4 py-2 sm:px-6 sm:py-2 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition-colors text-sm sm:text-base"

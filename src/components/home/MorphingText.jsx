@@ -43,7 +43,7 @@ const TextMorph = () => {
   };
 
   const update = () => {
-    let output = "";
+    let output = ""; //! what are these for
     let complete = 0;
 
     for (let i = 0; i < queue.length; i++) {
@@ -54,9 +54,11 @@ const TextMorph = () => {
         output += to;
       } else if (frame >= start) {
         if (Math.random() < 0.28) {
+          //!here
           output += `<span class="text-white">${randomChar()}</span>`;
         } else {
           output += `<span class="text-white">${
+            //!here
             queue[i].char || randomChar()
           }</span>`;
         }
@@ -99,13 +101,23 @@ const TextMorph = () => {
     };
   }, [frameRequest]);
 
+  // return (
+  //   <div className=" flex items-center justify-center">
+  //     <div
+  //       ref={elementRef}
+  //       role="presentation"
+  //       data-testid="morphing-text"
+  //       className="font-mono text-3xl font-bold text-white"
+  //     />
+  //   </div>
+  // );
   return (
-    <div className=" flex items-center justify-center">
+    <div className="flex items-center justify-center px-4 sm:px-8">
       <div
         ref={elementRef}
         role="presentation"
         data-testid="morphing-text"
-        className="font-mono text-3xl font-bold text-white"
+        className="font-mono text-xl sm:text-3xl font-bold text-white"
       />
     </div>
   );
